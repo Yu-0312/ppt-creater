@@ -1,91 +1,87 @@
 # slide-workflow
 
+把凌亂的文件（會議逐字稿、多場會議混檔、實驗／數據報告、論文、財報）變成**可直接上台的設計感簡報**的 Claude skill。
+
 A Claude skill that transforms messy documents — meeting transcripts, multi-meeting dumps, experiment/data reports, papers, financial statements — into **presentation-ready, design-quality slides**.
+
+它跟一般「一鍵生成簡報」的工具不同——它先把**內容想清楚、把數據驗算對**，再交給視覺生產：
 
 Unlike typical "one-click slide generators," this skill **thinks through the content first and verifies the numbers**, then hands off to visual production:
 
-1. **Distill + Inventory** — reports document scope, tags every section with a destination (on-slides / reserve area / handle separately), **intercepts sensitive data (names / salaries / non-compete clauses / personal info) into the reserve area**, then **stops and waits for your confirmation**.
-2. **Style Specification** — translates "make it look designed" into concrete hex codes, fonts, and layouts; choose from the built-in library of 34 styles, or use "show me options first."
-3. **Generate** — single HTML file, fixed 16:9 stage, no improvising.
-4. **Chart Verification** — all charts drawn from raw data with actual calculations; **re-computes every statistic the document claims before drawing**, catches numerical errors in the source, flags discrepancies without guessing or inventing.
-5. **Visual QA** — expected vs. actual, screenshot-by-screenshot review, only the specified pages get touched.
-6. **Retrospective Packaging** — saves the entire workflow as a reusable SOP.
+1. **提煉＋清點 / Distill + Inventory** — 回報文件範圍、每個區塊標記去向、**把敏感資料攔進備援區**，然後**停下來等你確認**。Reports scope, tags every section, intercepts sensitive data, then **stops and waits for your confirmation**.
+2. **風格規格 / Style Specification** — 把「有設計感」翻成具體色碼、字體、版型；可從內建 34 種風格庫挑，或「先給看再選」。Translates "make it look designed" into hex codes, fonts, and layouts.
+3. **生成 / Generate** — 單一 HTML、固定 16:9 舞台、不准加料。Single HTML file, fixed 16:9 stage, no improvising.
+4. **圖表驗算 / Chart Verification** — 所有圖用原始數據實際計算，**畫圖前先重算文件聲稱的統計值**，抓出原文錯誤，標註待核。Re-computes every claimed statistic before drawing; flags discrepancies without guessing or inventing.
+5. **視覺驗收 / Visual QA** — 預期 vs 實際、截圖逐頁核對、只改指定頁。Expected vs. actual, screenshot-by-screenshot, only the specified pages get touched.
+6. **複盤封裝 / Retrospective Packaging** — 把整套流程存成可重用 SOP。Saves the entire workflow as a reusable SOP.
 
-Design philosophy in one line: **AI produces, humans decide.** Three decisions always stay with you: what leaves the reserve area, how to handle chart discrepancies, and visual sign-off.
+設計哲學：**AI 量產，人把關。** 三個裁決權永遠留給人：備援區去留、圖表數字不一致、視覺驗收。
 
-> 中文說明：[README_zh.md](README_zh.md)
+Design philosophy: **AI produces, humans decide.** Three decisions always stay with you: reserve area, chart discrepancies, visual sign-off.
 
 ---
 
-## Installation
+## 安裝 / Installation
 
-### Option A — One-click (recommended)
+### 方法 A — 一鍵安裝（推薦）/ Option A — One-click (recommended)
 
-1. Go to the [Releases page](https://github.com/Yu-0312/ppt-creater/releases/latest)
-2. Download `ppt-creater.skill`
-3. Double-click the file — Claude Desktop installs it automatically
+1. 前往 [Releases 頁面](https://github.com/Yu-0312/ppt-creater/releases/latest) / Go to the [Releases page](https://github.com/Yu-0312/ppt-creater/releases/latest)
+2. 下載 `ppt-creater.skill` / Download `ppt-creater.skill`
+3. 雙擊檔案，Claude Desktop 自動安裝 / Double-click — Claude Desktop installs it automatically
 
-### Option B — Clone via Git
+### 方法 B — Git Clone
 
-Open Terminal and run:
+開啟終端機，執行 / Open Terminal and run:
 
 ```bash
 git clone https://github.com/Yu-0312/ppt-creater.git ~/.claude/skills/slide-workflow
 ```
 
-That's it. The skill is now at `~/.claude/skills/slide-workflow/` and will be picked up automatically.
+> 日後更新 / To update later: `cd ~/.claude/skills/slide-workflow && git pull`
 
-> **To update later:** `cd ~/.claude/skills/slide-workflow && git pull`
+### 方法 C — 下載 ZIP / Download ZIP (no Git required)
 
-### Option C — Download ZIP (no Git required)
-
-1. Click the green **Code** button on this page → **Download ZIP**
-2. Unzip the downloaded file
-3. Rename the extracted folder to `slide-workflow`
-4. Move it to the skills folder:
+1. 點擊頁面上的綠色 **Code** 按鈕 → **Download ZIP** / Click the green **Code** button → **Download ZIP**
+2. 解壓縮，將資料夾重命名為 `slide-workflow` / Unzip and rename the folder to `slide-workflow`
+3. 移動到 skills 資料夾 / Move to the skills folder:
 
 ```bash
 mv ~/Downloads/ppt-creater-main ~/.claude/skills/slide-workflow
 ```
 
----
+### 確認安裝 / Verify installation
 
-### Verify installation
+重新啟動 Claude Desktop，丟入任意文件說：/ Restart Claude Desktop, drop in a document and say:
 
-After any option above, restart Claude Desktop and drop a document into chat:
-
-> "Turn this into slides."
-
-The skill triggers automatically.
+> 「幫我做成簡報」 / "Turn this into slides."
 
 ---
 
-## File Structure
+## 檔案結構 / File Structure
 
 ```
 slide-workflow/
-├── SKILL.md                      # Main workflow (6 steps)
+├── SKILL.md                      # 主流程（6 步）/ Main workflow (6 steps)
 ├── references/
-│   ├── prompts.md                # 6 ready-to-paste prompt templates
-│   ├── chart-integrity.md        # Chart data verification rules (real math, no fabrication, no accusations)
-│   └── visual-craft.md           # Visual craft (rhythm, CJK type sizes, image ratios, pre-check, QA, handoff)
-├── bold-template-pack/           # 34 style design specs (see Acknowledgements below)
-├── CREDITS.md                    # Third-party attribution and licenses
-├── LICENSE                       # MIT license for original work
+│   ├── prompts.md                # 6 段 prompt 模板 / 6 ready-to-paste prompt templates
+│   ├── chart-integrity.md        # 圖表驗算紀律 / Chart data verification rules
+│   └── visual-craft.md           # 版面工藝 / Visual craft
+├── bold-template-pack/           # 34 種風格設計規格 / 34 style design specs
+├── CREDITS.md                    # 第三方授權 / Third-party attribution
+├── LICENSE                       # MIT License
 └── README.md
 ```
 
-## Chaining with Other Deck Skills (Optional)
+## 與其他 Deck Skill 接力 / Chaining with Other Deck Skills (Optional)
 
-This skill is the **content + data brain**. The generation step can hand off to a skill specialized in visual production:
+本 skill 是「內容＋數據的大腦」，生成這一步可交棒給專做視覺生產的 skill。
+This skill is the **content + data brain**. The generation step can hand off to a visual production skill:
 
-- **guizang-ppt-skill** — depth-focused: 2 refined styles (editorial magazine / Swiss International Typographic Style) + a verification script.
-- **frontend-slides** — breadth-focused: 30+ styles + fixed 16:9 stage + PPTX import + deploy URL / PDF export.
+- **guizang-ppt-skill** — 深度型，2 種精裝風格（電子雜誌風／瑞士國際主義風）＋驗版腳本。Depth-focused: 2 refined styles + verification script.
+- **frontend-slides** — 廣度型，30+ 種風格＋16:9 舞台＋PPTX 匯入＋部署 URL／PDF 匯出。Breadth-focused: 30+ styles + PPTX import + deploy URL / PDF export.
 
-See `references/visual-craft.md` §10 for guidance on which to use.
+## 致謝與授權 / Acknowledgements
 
-## Acknowledgements
-
-- The **original work** in this project (workflow, `references/`, `SKILL.md`) is released under the **MIT License** — see [`LICENSE`](LICENSE).
-- `bold-template-pack/` (34 style design specs) is from **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)** by **Zara Zhang**, MIT License — see [`bold-template-pack/LICENSE`](bold-template-pack/LICENSE). The upstream source of these design systems is **[`zarazhangrui/beautiful-html-templates`](https://github.com/zarazhangrui/beautiful-html-templates)**.
-- Full third-party attribution and compliance notes: [`CREDITS.md`](CREDITS.md).
+- 本專案**原創部分**採 **MIT License**，見 [`LICENSE`](LICENSE)。The **original work** is released under the **MIT License**.
+- `bold-template-pack/` 來自 **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)**，作者 **Zara Zhang**，MIT License，見 [`bold-template-pack/LICENSE`](bold-template-pack/LICENSE)。上游為 **[`zarazhangrui/beautiful-html-templates`](https://github.com/zarazhangrui/beautiful-html-templates)**。
+- 完整說明見 [`CREDITS.md`](CREDITS.md)。Full third-party attribution: [`CREDITS.md`](CREDITS.md).
