@@ -1,51 +1,91 @@
 # slide-workflow
 
-把凌亂的文件（會議逐字稿、多場會議混檔、實驗／數據報告、論文、財報）變成**可直接上台的設計感簡報**的 Claude skill。
+A Claude skill that transforms messy documents — meeting transcripts, multi-meeting dumps, experiment/data reports, papers, financial statements — into **presentation-ready, design-quality slides**.
 
-它跟一般「一鍵生成簡報」的工具不同——它先把**內容想清楚、把數據驗算對**，再交給視覺生產：
+Unlike typical "one-click slide generators," this skill **thinks through the content first and verifies the numbers**, then hands off to visual production:
 
-1. **提煉＋清點** — 回報文件範圍、每個區塊標記去向（上簡報／備援區／另案處理）、**把敏感資料（姓名／薪資／競業條款／個資）攔進備援區**，然後**停下來等你確認**。
-2. **風格規格** — 把「有設計感」翻成具體色碼、字體、版型；可從內建的 34 種風格庫挑，或「先給看再選」。
-3. **生成** — 單一 HTML、固定 16:9 舞台、不准加料。
-4. **圖表驗算** — 所有圖用原始數據實際計算，**畫圖前先重算文件聲稱的統計值**，抓出原文寫錯的數字，標註待核而不擅改、不捏造、不指控。
-5. **視覺驗收** — 預期 vs 實際、截圖逐頁核對、只改指定頁。
-6. **複盤封裝** — 把整套流程存成可重用 SOP。
+1. **Distill + Inventory** — reports document scope, tags every section with a destination (on-slides / reserve area / handle separately), **intercepts sensitive data (names / salaries / non-compete clauses / personal info) into the reserve area**, then **stops and waits for your confirmation**.
+2. **Style Specification** — translates "make it look designed" into concrete hex codes, fonts, and layouts; choose from the built-in library of 34 styles, or use "show me options first."
+3. **Generate** — single HTML file, fixed 16:9 stage, no improvising.
+4. **Chart Verification** — all charts drawn from raw data with actual calculations; **re-computes every statistic the document claims before drawing**, catches numerical errors in the source, flags discrepancies without guessing or inventing.
+5. **Visual QA** — expected vs. actual, screenshot-by-screenshot review, only the specified pages get touched.
+6. **Retrospective Packaging** — saves the entire workflow as a reusable SOP.
 
-設計哲學一句話：**AI 量產，人把關。** 三個裁決權永遠留給人：備援區去留、圖表數字不一致、視覺驗收。
+Design philosophy in one line: **AI produces, humans decide.** Three decisions always stay with you: what leaves the reserve area, how to handle chart discrepancies, and visual sign-off.
 
-## 安裝
+> 中文說明：[README_zh.md](README_zh.md)
 
-- **Cowork／Claude 桌面版**：在 skill 卡片按 **Save skill**，會安裝到 `~/.claude/skills/slide-workflow/`。
-- **手動**：把整個 `slide-workflow/` 資料夾放到 `~/.claude/skills/` 下即可。
+---
 
-裝好後，丟一份檔案說「幫我做成簡報」「把這份報告整理成投影片」就會自動觸發。
+## Installation
 
-## 檔案結構
+### Option A — One-click (recommended)
+
+1. Go to the [Releases page](https://github.com/Yu-0312/ppt-creater/releases/latest)
+2. Download `ppt-creater.skill`
+3. Double-click the file — Claude Desktop installs it automatically
+
+### Option B — Clone via Git
+
+Open Terminal and run:
+
+```bash
+git clone https://github.com/Yu-0312/ppt-creater.git ~/.claude/skills/slide-workflow
+```
+
+That's it. The skill is now at `~/.claude/skills/slide-workflow/` and will be picked up automatically.
+
+> **To update later:** `cd ~/.claude/skills/slide-workflow && git pull`
+
+### Option C — Download ZIP (no Git required)
+
+1. Click the green **Code** button on this page → **Download ZIP**
+2. Unzip the downloaded file
+3. Rename the extracted folder to `slide-workflow`
+4. Move it to the skills folder:
+
+```bash
+mv ~/Downloads/ppt-creater-main ~/.claude/skills/slide-workflow
+```
+
+---
+
+### Verify installation
+
+After any option above, restart Claude Desktop and drop a document into chat:
+
+> "Turn this into slides."
+
+The skill triggers automatically.
+
+---
+
+## File Structure
 
 ```
 slide-workflow/
-├── SKILL.md                      # 主流程（6 步）
+├── SKILL.md                      # Main workflow (6 steps)
 ├── references/
-│   ├── prompts.md                # 6 段可直接貼上的 prompt 模板
-│   ├── chart-integrity.md        # 圖表數據驗算紀律（真算、不造假、不指控）
-│   └── visual-craft.md           # 版面工藝（節奏、中文字號、圖片比例、預檢、驗收、接力）
-├── bold-template-pack/           # 34 種風格設計規格（見下方致謝與授權）
-├── CREDITS.md                    # 第三方出處與授權
-├── LICENSE                       # 本專案原創部分授權（MIT）
+│   ├── prompts.md                # 6 ready-to-paste prompt templates
+│   ├── chart-integrity.md        # Chart data verification rules (real math, no fabrication, no accusations)
+│   └── visual-craft.md           # Visual craft (rhythm, CJK type sizes, image ratios, pre-check, QA, handoff)
+├── bold-template-pack/           # 34 style design specs (see Acknowledgements below)
+├── CREDITS.md                    # Third-party attribution and licenses
+├── LICENSE                       # MIT license for original work
 └── README.md
 ```
 
-## 與其他 deck skill 接力（可選）
+## Chaining with Other Deck Skills (Optional)
 
-本 skill 是「內容＋數據的大腦」，生成這一步可交棒給專做視覺生產的 skill：
+This skill is the **content + data brain**. The generation step can hand off to a skill specialized in visual production:
 
-- **guizang-ppt-skill** — 深度型，2 種精裝風格（電子雜誌風／瑞士國際主義風）＋驗版腳本。
-- **frontend-slides** — 廣度型，30+ 種風格＋固定 16:9 舞台＋PPTX 匯入＋部署 URL／PDF 匯出。
+- **guizang-ppt-skill** — depth-focused: 2 refined styles (editorial magazine / Swiss International Typographic Style) + a verification script.
+- **frontend-slides** — breadth-focused: 30+ styles + fixed 16:9 stage + PPTX import + deploy URL / PDF export.
 
-選用建議見 `references/visual-craft.md` 第 10 節。
+See `references/visual-craft.md` §10 for guidance on which to use.
 
-## 致謝與授權（Acknowledgements）
+## Acknowledgements
 
-- 本專案**原創部分**（工作流、`references/`、`SKILL.md`）採 **MIT License**，見 [`LICENSE`](LICENSE)。
-- `bold-template-pack/`（34 種風格設計規格）來自 **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)**，作者 **Zara Zhang**，採 MIT License，見 [`bold-template-pack/LICENSE`](bold-template-pack/LICENSE)。這些設計系統的上游為 **[`zarazhangrui/beautiful-html-templates`](https://github.com/zarazhangrui/beautiful-html-templates)**。
-- 完整第三方出處與合規說明見 [`CREDITS.md`](CREDITS.md)。
+- The **original work** in this project (workflow, `references/`, `SKILL.md`) is released under the **MIT License** — see [`LICENSE`](LICENSE).
+- `bold-template-pack/` (34 style design specs) is from **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)** by **Zara Zhang**, MIT License — see [`bold-template-pack/LICENSE`](bold-template-pack/LICENSE). The upstream source of these design systems is **[`zarazhangrui/beautiful-html-templates`](https://github.com/zarazhangrui/beautiful-html-templates)**.
+- Full third-party attribution and compliance notes: [`CREDITS.md`](CREDITS.md).
