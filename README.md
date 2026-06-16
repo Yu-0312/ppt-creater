@@ -4,32 +4,28 @@
 
 A Claude skill that transforms messy documents — meeting transcripts, multi-meeting dumps, experiment/data reports, papers, financial statements — into **presentation-ready, design-quality slides**.
 
-它跟一般「一鍵生成簡報」的工具不同——它先把**內容想清楚、把數據驗算對**，再交給視覺生產：
+它跟一般「一鍵生成簡報」工具不同——它**先一次問完所有設定**，再**一層一層地**把內容想清楚、把數據驗算對，最後交給視覺生產：
 
-Unlike typical "one-click slide generators," this skill **thinks through the content first and verifies the numbers**, then hands off to visual production:
+Unlike typical "one-click slide generators," this skill starts by **collecting all your preferences upfront in a single message**, then proceeds layer by layer — content first, then design spec, then generation:
 
+0. **預設問卷 / Upfront Config** — 一次問完所有設定（素材來源、受眾、尺寸、品牌資產、版型偏好），**填完就一路跑到底**。Collects all settings in one message — audience, canvas format, brand assets, and more — before any work begins.
 1. **提煉＋清點 / Distill + Inventory** — 回報文件範圍、每個區塊標記去向、**把敏感資料攔進備援區**，然後**停下來等你確認**；若你帶著自己的大綱來，切換為**診斷模式**：找漏洞、查邏輯、不直接生產。Reports scope, tags every section, intercepts sensitive data, then **stops and waits for your confirmation**. If you bring your own outline, switches to **critique mode**: finds gaps and logic issues instead of producing.
-2. **風格規格 / Style Specification** — 把「有設計感」翻成具體色碼、字體、版型；可從內建 34 種風格庫挑，或「先給看再選」。Translates "make it look designed" into hex codes, fonts, and layouts.
-3. **生成 / Generate** — 單一 HTML、固定 16:9 舞台、不准加料。Single HTML file, fixed 16:9 stage, no improvising.
-4. **圖表驗算 / Chart Verification** — 所有圖用原始數據實際計算，**畫圖前先重算文件聲稱的統計值**，抓出原文錯誤，標註待核。Re-computes every claimed statistic before drawing; flags discrepancies without guessing or inventing.
-5. **視覺驗收 / Visual QA** — 預期 vs 實際、截圖逐頁核對、只改指定頁。Expected vs. actual, screenshot-by-screenshot, only the specified pages get touched.
-6. **複盤封裝 / Retrospective Packaging** — 把整套流程存成可重用 SOP。Saves the entire workflow as a reusable SOP.
+2. **模板選擇 / Template Selection** — 根據你的內容與場合，從 **34 種風格模板庫**篩出 3–5 個候選，⛔ 等你挑選後再進配色。Shortlists 3–5 templates from a **34-style library** based on your content and context — stops and waits for your pick before proceeding to color.
+3. **風格規格 / Style Specification** — 把「有設計感」翻成具體色碼、字體、版型；套入選定模板；若有品牌資產則先擷取品牌色。Translates "make it look designed" into hex codes, fonts, and layouts — applied on top of your chosen template, with brand color extraction if you have brand assets.
+4. **生成 / Generate** — 單一 HTML、對應 Canvas 格式、不准加料。Single HTML file, matching canvas format (16:9 / 4:3 / 9:16 / A4), no improvising.
+5. **圖表驗算 / Chart Verification** — 所有圖用原始數據實際計算，**畫圖前先重算文件聲稱的統計值**，抓出原文錯誤，標註待核。Re-computes every claimed statistic before drawing; flags discrepancies without guessing or inventing.
+6. **視覺驗收 / Visual QA** — 預期 vs 實際、截圖逐頁核對、只改指定頁。Expected vs. actual, screenshot-by-screenshot, only the specified pages get touched.
+7. **複盤封裝 / Retrospective Packaging** — 把整套流程存成可重用 SOP。Saves the entire workflow as a reusable SOP.
 
-設計哲學：**AI 量產，人把關**；也可以**人做判斷，AI 找問題**。不要外包大腦給 AI——你整理大綱、AI 診斷缺口，比讓 AI 猜你要說什麼有效得多。三個裁決權永遠在人：備援區去留、圖表數字不一致、視覺驗收。
+設計哲學：**AI 量產，人把關**；也可以**人做判斷，AI 找問題**。不要外包大腦給 AI——你整理大綱、AI 診斷缺口，比讓 AI 猜你要說什麼有效得多。三個裁決權永遠在人：備援區去留、模板選擇、圖表數字不一致。
 
-Design philosophy: **AI produces, humans decide** — or flip it: **you lead the thinking, AI finds the gaps.** Don't outsource your brain. Bring your own outline; let AI diagnose what's missing or unclear. Either way, three decisions always stay with you: reserve area, chart discrepancies, visual sign-off.
+Design philosophy: **AI produces, humans decide** — or flip it: **you lead the thinking, AI finds the gaps.** Don't outsource your brain. Bring your own outline; let AI diagnose what's missing or unclear. Either way, three decisions always stay with you: reserve area, template pick, chart discrepancies.
 
 ---
 
 ## 安裝 / Installation
 
-### 方法 A — 一鍵安裝（推薦）/ Option A — One-click (recommended)
-
-1. 前往 [Releases 頁面](https://github.com/Yu-0312/ppt-creater/releases/latest) / Go to the [Releases page](https://github.com/Yu-0312/ppt-creater/releases/latest)
-2. 下載 `ppt-creater.skill` / Download `ppt-creater.skill`
-3. 雙擊檔案，Claude Desktop 自動安裝 / Double-click — Claude Desktop installs it automatically
-
-### 方法 B — Git Clone
+### 方法 A — Git Clone（推薦，永遠最新版）/ Option A — Git Clone (Recommended, always up to date)
 
 開啟終端機，執行 / Open Terminal and run:
 
@@ -39,7 +35,7 @@ git clone https://github.com/Yu-0312/ppt-creater.git ~/.claude/skills/slide-work
 
 > 日後更新 / To update later: `cd ~/.claude/skills/slide-workflow && git pull`
 
-### 方法 C — 下載 ZIP / Download ZIP (no Git required)
+### 方法 B — 下載 ZIP / Option B — Download ZIP (no Git required)
 
 1. 點擊頁面上的綠色 **Code** 按鈕 → **Download ZIP** / Click the green **Code** button → **Download ZIP**
 2. 解壓縮，將資料夾重命名為 `slide-workflow` / Unzip and rename the folder to `slide-workflow`
@@ -57,13 +53,29 @@ mv ~/Downloads/ppt-creater-main ~/.claude/skills/slide-workflow
 
 ---
 
+## 流程總覽 / Workflow Overview
+
+| 步 / Step | 做什麼 / What | 人工裁決 / Human Decision |
+|---|---|---|
+| **0** | 預設問卷：一次問完素材、受眾、格式、品牌、設計偏好 | ✅ 全部功能開關 |
+| 前置 | 路徑分流（有素材 / 主題研究 / 跨 session 銜接）| — |
+| **1** | 提煉＋清點 → ⛔ 停下確認範圍與備援區 | ✅ 備援區去留 |
+| **1.5** | 模板選擇：從 34 種風格篩出 3–5 候選 → ⛔ 等你選 | ✅ 使用者挑模板 |
+| **2** | 風格規格（套入模板；品牌色擷取；Refine Spec opt-in）| ✅ Refine Spec（opt-in）|
+| **3** | 生成（單一 HTML，Canvas 格式對應 Step 0 設定）| — |
+| **4** | 圖表驗算（原始數據繪製、重算統計值、抓錯標註）| ✅ 重大數字差異 |
+| **5** | 視覺驗收（預期 vs 實際、截圖逐頁核對）| ✅ |
+| **6** | 複盤封裝（整理成可重用 SOP）| — |
+
+---
+
 ## 檔案結構 / File Structure
 
 ```
 slide-workflow/
-├── SKILL.md                      # 主流程（6 步）/ Main workflow (6 steps)
+├── SKILL.md                      # 主流程（Step 0–6）/ Main workflow (Step 0–6)
 ├── references/
-│   ├── prompts.md                # 6 段 prompt 模板 / 6 ready-to-paste prompt templates
+│   ├── prompts.md                # 各步 prompt 模板 / Ready-to-paste prompt templates
 │   ├── chart-integrity.md        # 圖表驗算紀律 / Chart data verification rules
 │   └── visual-craft.md           # 版面工藝 / Visual craft
 ├── bold-template-pack/           # 34 種風格設計規格 / 34 style design specs
@@ -71,6 +83,8 @@ slide-workflow/
 ├── LICENSE                       # MIT License
 └── README.md
 ```
+
+---
 
 ## 與其他 Deck Skill 接力 / Chaining with Other Deck Skills (Optional)
 
@@ -80,8 +94,11 @@ This skill is the **content + data brain**. The generation step can hand off to 
 - **guizang-ppt-skill** — 深度型，2 種精裝風格（電子雜誌風／瑞士國際主義風）＋驗版腳本。Depth-focused: 2 refined styles + verification script.
 - **frontend-slides** — 廣度型，30+ 種風格＋16:9 舞台＋PPTX 匯入＋部署 URL／PDF 匯出。Breadth-focused: 30+ styles + PPTX import + deploy URL / PDF export.
 
+---
+
 ## 致謝與授權 / Acknowledgements
 
 - 本專案**原創部分**採 **MIT License**，見 [`LICENSE`](LICENSE)。The **original work** is released under the **MIT License**.
 - `bold-template-pack/` 來自 **[frontend-slides](https://github.com/zarazhangrui/frontend-slides)**，作者 **Zara Zhang**，MIT License，見 [`bold-template-pack/LICENSE`](bold-template-pack/LICENSE)。上游為 **[`zarazhangrui/beautiful-html-templates`](https://github.com/zarazhangrui/beautiful-html-templates)**。
+- 部分工作流設計概念（主題研究前置、執行紀律標記、品牌擷取）參考並改寫自 **[hugohe3/ppt-master](https://github.com/hugohe3/ppt-master)**（MIT License，Copyright © 2025–2026 Hugo He）。
 - 完整說明見 [`CREDITS.md`](CREDITS.md)。Full third-party attribution: [`CREDITS.md`](CREDITS.md).
