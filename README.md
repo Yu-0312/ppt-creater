@@ -8,16 +8,16 @@ A Claude skill that transforms messy documents — meeting transcripts, multi-me
 
 Unlike typical "one-click slide generators," this skill **thinks through the content first and verifies the numbers**, then hands off to visual production:
 
-1. **提煉＋清點 / Distill + Inventory** — 回報文件範圍、每個區塊標記去向、**把敏感資料攔進備援區**，然後**停下來等你確認**。Reports scope, tags every section, intercepts sensitive data, then **stops and waits for your confirmation**.
+1. **提煉＋清點 / Distill + Inventory** — 回報文件範圍、每個區塊標記去向、**把敏感資料攔進備援區**，然後**停下來等你確認**；若你帶著自己的大綱來，切換為**診斷模式**：找漏洞、查邏輯、不直接生產。Reports scope, tags every section, intercepts sensitive data, then **stops and waits for your confirmation**. If you bring your own outline, switches to **critique mode**: finds gaps and logic issues instead of producing.
 2. **風格規格 / Style Specification** — 把「有設計感」翻成具體色碼、字體、版型；可從內建 34 種風格庫挑，或「先給看再選」。Translates "make it look designed" into hex codes, fonts, and layouts.
 3. **生成 / Generate** — 單一 HTML、固定 16:9 舞台、不准加料。Single HTML file, fixed 16:9 stage, no improvising.
 4. **圖表驗算 / Chart Verification** — 所有圖用原始數據實際計算，**畫圖前先重算文件聲稱的統計值**，抓出原文錯誤，標註待核。Re-computes every claimed statistic before drawing; flags discrepancies without guessing or inventing.
 5. **視覺驗收 / Visual QA** — 預期 vs 實際、截圖逐頁核對、只改指定頁。Expected vs. actual, screenshot-by-screenshot, only the specified pages get touched.
 6. **複盤封裝 / Retrospective Packaging** — 把整套流程存成可重用 SOP。Saves the entire workflow as a reusable SOP.
 
-設計哲學：**AI 量產，人把關。** 三個裁決權永遠留給人：備援區去留、圖表數字不一致、視覺驗收。
+設計哲學：**AI 量產，人把關**；也可以**人做判斷，AI 找問題**。不要外包大腦給 AI——你整理大綱、AI 診斷缺口，比讓 AI 猜你要說什麼有效得多。三個裁決權永遠在人：備援區去留、圖表數字不一致、視覺驗收。
 
-Design philosophy: **AI produces, humans decide.** Three decisions always stay with you: reserve area, chart discrepancies, visual sign-off.
+Design philosophy: **AI produces, humans decide** — or flip it: **you lead the thinking, AI finds the gaps.** Don't outsource your brain. Bring your own outline; let AI diagnose what's missing or unclear. Either way, three decisions always stay with you: reserve area, chart discrepancies, visual sign-off.
 
 ---
 
