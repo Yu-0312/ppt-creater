@@ -25,9 +25,38 @@ Design philosophy: **AI produces, humans decide** — or flip it: **you lead the
 
 ## 安裝 / Installation
 
-### 方法 A — Git Clone（推薦，永遠最新版）/ Option A — Git Clone (Recommended, always up to date)
+### 方法 A — 終端一步安裝（最快）/ Option A — One-line Terminal Install (fastest)
 
-開啟終端機，執行 / Open Terminal and run:
+不需要 Git，直接貼進終端機執行 / No Git required — paste and run in Terminal:
+
+```bash
+curl -L https://github.com/Yu-0312/ppt-creater/archive/refs/heads/main.zip -o /tmp/slide-workflow.zip \
+  && unzip -q /tmp/slide-workflow.zip -d /tmp \
+  && mkdir -p ~/.claude/skills \
+  && mv /tmp/ppt-creater-main ~/.claude/skills/slide-workflow \
+  && rm /tmp/slide-workflow.zip \
+  && echo "✅ 安裝完成 / Installed successfully"
+```
+
+> 日後更新：重新執行以上指令即可（會覆蓋舊版）/ To update: re-run the same command.
+
+---
+
+### 方法 B — 直接下載 ZIP / Option B — Direct ZIP Download
+
+**👉 [點這裡下載最新版 ZIP](https://github.com/Yu-0312/ppt-creater/archive/refs/heads/main.zip)**
+
+下載後 / After downloading:
+
+```bash
+unzip ~/Downloads/ppt-creater-main.zip -d ~/Downloads \
+  && mkdir -p ~/.claude/skills \
+  && mv ~/Downloads/ppt-creater-main ~/.claude/skills/slide-workflow
+```
+
+---
+
+### 方法 C — Git Clone（想追蹤更新）/ Option C — Git Clone (stay in sync)
 
 ```bash
 git clone https://github.com/Yu-0312/ppt-creater.git ~/.claude/skills/slide-workflow
@@ -35,15 +64,7 @@ git clone https://github.com/Yu-0312/ppt-creater.git ~/.claude/skills/slide-work
 
 > 日後更新 / To update later: `cd ~/.claude/skills/slide-workflow && git pull`
 
-### 方法 B — 下載 ZIP / Option B — Download ZIP (no Git required)
-
-1. 點擊頁面上的綠色 **Code** 按鈕 → **Download ZIP** / Click the green **Code** button → **Download ZIP**
-2. 解壓縮，將資料夾重命名為 `slide-workflow` / Unzip and rename the folder to `slide-workflow`
-3. 移動到 skills 資料夾 / Move to the skills folder:
-
-```bash
-mv ~/Downloads/ppt-creater-main ~/.claude/skills/slide-workflow
-```
+---
 
 ### 確認安裝 / Verify installation
 
