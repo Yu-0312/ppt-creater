@@ -51,6 +51,7 @@ description: >-
 2. **⛔ BLOCKING = 硬停**：標記 ⛔ 的步驟必須完全停下，等使用者明確回應才能繼續，AI 不得代替使用者做決定。
 3. **✅ GATE = 進入條件**：每步開始前先確認前提已滿足，不滿足不得進入。
 4. **禁止跨階段預製**：在 Strategist 階段就偷寫 HTML、在清點階段就偷做配色，一律禁止。
+5. **模板選擇不可跳過**：Step 1.5 是硬性步驟，不論使用者是否提到風格偏好，都必須執行。禁止自行選定模板後跳過使用者選擇。模板目錄已內嵌於 Step 1.5，不需讀取外部檔案即可執行。
 
 ---
 
@@ -207,39 +208,81 @@ description: >-
 
 ---
 
-## Step 1.5 — 模板選擇（⛔ BLOCKING）
+## Step 1.5 — 模板選擇（⛔ BLOCKING，不可跳過）
 
 **✅ GATE**：Step 1 清點表已獲使用者確認，備援區去留已裁決。
 
-**若使用者在 Step 0 已提供品牌資產**，先執行品牌擷取（見下方說明），再根據品牌色系縮小模板候選範圍。
+> ⚠️ 本步驟**不依賴外部檔案**——模板目錄已完整內嵌於下方。不論是否能讀取 `selection-index.json`，都必須執行模板選擇。
 
-根據以下維度從 `bold-template-pack/selection-index.json` 篩選 **3–5 個候選模板**：
-- 內容主題與語境（商業 / 科技 / 學術 / 創意…）
-- Step 0 選定的受眾與場合
-- Step 0 選定的呈現方式（演講型 / 閱讀型）
-- 品牌色系（若有品牌擷取結果）
+**若使用者在 Step 0 已提供品牌資產**，先執行品牌擷取（見 Step 2 說明），再根據品牌色系縮小候選範圍。
 
-以下列格式呈現，**⛔ 停下來等使用者選擇**：
+### 模板目錄（34 種，已內嵌）
+
+根據內容主題、受眾場合、呈現方式、品牌色系，從下表篩選 **3–5 個最適合的候選模板**：
+
+| slug | 名稱 | 一句話 | 風格氣質 | 正式度 | 最適合 |
+|---|---|---|---|---|---|
+| `8-bit-orbit` | 8-Bit Orbit | 像深夜 CRT 螢幕的像素霓虹 | retro-tech, cyberpunk, energetic | 低 | 科技/遊戲/駭客主題 |
+| `biennale-yellow` | Biennale Yellow | 太陽黃 × 暖羊皮紙，藝術雙年展海報感 | editorial, atmospheric, cultural | 高 | 藝術/文化/創意機構 |
+| `block-frame` | BlockFrame | 新野蠻主義，粗黑邊框＋粉霓虹色塊 | bold, playful, graphic | 中低 | 獨立品牌/設計類/流行文化 |
+| `blue-professional` | Blue Professional | 奶油底＋電鈷藍，現代專業感 | professional, modern, trustworthy | 中高 | 企業提案/投資人簡報 |
+| `bold-poster` | Bold Poster | 雜誌封面感，巨型 Display 字＋消防紅 | bold, editorial, confident | 中 | 品牌宣言/產品發布/行銷 |
+| `broadside` | Broadside | 深色底＋火橙強調色，報紙大版感 | editorial, dramatic, newspaper | 中高 | 重磅聲明/發布會/公告 |
+| `capsule` | Capsule | 模組化膠囊卡片，Y2K 粉彩配色 | playful, modern, Y2K | 中低 | 產品展示/新創/潮流品牌 |
+| `cartesian` | Cartesian | 暖中性色 × Playfair 經典襯線，從容不迫 | quiet, elegant, warm-minimal | 高 | 學術/顧問/深度研究 |
+| `cobalt-grid` | Cobalt Grid | 方格紙底 × 電鈷藍襯線，設計研究感 | editorial, modernist, monochrome | 高 | 設計研究/建築/學術 |
+| `coral` | Coral | 珊瑚橙 × 近黑，Bebas Neue 超大字 | bold, warm, editorial | 中 | 時尚/生活風格/DTC 品牌 |
+| `creative-mode` | Creative Mode | 奶油底＋四色強調，Archivo Black 顯示字 | creative, confident, design-led | 中 | 創意提案/品牌策略 |
+| `daisy-days` | Daisy Days | 手繪雛菊 × 星星彩虹，溫柔粉彩 | cheerful, playful, wholesome | 低 | 教育/兒童/生活/輕量分享 |
+| `editorial-forest` | Editorial Forest | 森林綠 × 粉塵 × 奶油，季度回顧雜誌感 | editorial, quiet, warm | 中 | 年度回顧/品牌季報/分享型 |
+| `editorial-tri-tone` | Editorial Tri-Tone | 粉紅 × 芥末奶油 × 深酒紅，時尚雜誌感 | editorial, warm, moody | 中高 | 時尚/美妝/生活品牌 |
+| `emerald-editorial` | Emerald Editorial | 祖母綠 × 海軍藍 × 牛皮紙，雜誌封面商業感 | editorial, confident, magazine-cover | 中高 | 商業週刊感/年報/品牌報告 |
+| `grove` | Grove | 深森林綠底 × 奶油字，Playfair 文學質感 | organic, literary, natural | 中高 | 永續/自然/人文/深度分享 |
+| `long-table` | Long Table | 暖奶油 × 鐵鏽紅，晚宴俱樂部感 | warm, intimate, modern | 中 | 餐飲/社群/品牌故事 |
+| `mat` | Mat | 深鼠尾草綠 × 骨白 × 焦橙，mid-century 質感 | warm-modern, mid-century, tactile | 中 | 設計師/工作室/中古風品牌 |
+| `monochrome` | Monochrome | 象牙帳本紙底 × 全黑字，零色彩極簡 | restrained, archival, literary | 高 | 論文/法律/財報/極簡主義 |
+| `neo-grid-bold` | Neo-Grid Bold | 霓虹黃單色強調 × 米白底，新野蠻主義編輯感 | confident, punchy, editorial | 中 | 設計媒體/策略提案/品牌 |
+| `peoples-platform` | People's Platform | 活動家海報感：藍橙紅 × 奶油底 | activist, loud, graphic | 中低 | 社會倡議/非營利/草根運動 |
+| `pin-and-paper` | Pin & Paper | 黃色牛皮紙 × 別針插圖 × Caveat 手寫 | crafted, handmade, literary | 中 | 獨立出版/手作品牌/個人分享 |
+| `pink-script` | Pink Script — After Hours | 黑底 × 熱粉紅 × 珍珠白，深夜編輯奢感 | nocturnal, moody, luxe | 中高 | 時尚/美妝/音樂/夜間品牌 |
+| `playful` | Playful | 日曬蜜桃底 × Syne 字，獨立品牌暖感 | warm, approachable, indie | 低 | 創業/個人品牌/輕量提案 |
+| `raw-grid` | Raw Grid | 新野蠻主義，粗邊框 × 偏移陰影 × 粉鼠尾草 | raw, punchy, energetic | 中低 | 新創/設計工作室/基金募集 |
+| `retro-windows` | Retro Windows | Windows 95 鉻灰介面，全套懷舊 | nostalgic, retro, geeky | 低 | 技術梗/遊戲/懷舊主題 |
+| `retro-zine` | Retro Zine | 米色紙底 × 綠色 × Bebas，油印 zine 感 | crafted, lo-fi, underground | 中低 | 獨立音樂/青年文化/地下品牌 |
+| `sakura-chroma` | Sakura Chroma | 日本卡帶包裝美學，斜彩虹條 × JIS 規格格 | retro, kawaii-tech, product-catalogue | 低 | 日系品牌/科技趣味/產品展示 |
+| `scatterbrain` | Scatterbrain | 便利貼拼貼，Caveat 手寫，工作坊便條感 | playful, workshop, messy-on-purpose | 低 | 腦力激盪/創意工作坊/教學 |
+| `signal` | Signal | 深海軍藍底 × 骨白 × 靜金，機構份量感 | institutional, trustworthy, weighty | 高 | NGO/政府/法律/金融/學術機構 |
+| `soft-editorial` | Soft Editorial | Cormorant Garamond × 暖紙 × 鼠尾草粉檸 | literary, elegant, warm-classical | 高 | 文學/藝術/奢侈品/詩意分享 |
+| `stencil-tablet` | Stencil & Tablet | 骨白紙底 × 鏤空標題 × 六色大地色系 | archival, earthy, tactile | 中高 | 考古/品牌歷史/博物館/地理 |
+| `studio` | Studio | 全黑底 × 電黃字，設計工作室高壓感 | electric, bold, high-contrast | 中 | 設計工作室/創意展示/科技發布 |
+| `vellum` | Vellum | 深海軍藍 × 暖黃 Cormorant × 灰藍，學術書卷氣 | scholarly, literary, intellectual | 高 | 學術演講/論文分享/深度研究 |
+
+### 篩選與呈現
+
+根據以下維度從上表選出 **3–5 個候選**：
+- 內容主題與語境
+- Step 0 受眾與場合
+- Step 0 呈現方式（演講型偏視覺衝擊；閱讀型偏資訊密度）
+- 品牌色系（若有，優先選色系相容的模板）
+
+以下列格式輸出，**⛔ 停下來等使用者選擇，不得繼續進行任何步驟**：
 
 ```
-根據你的內容和設定，推薦以下 3 個模板，請選一個：
+根據你的內容和設定，推薦以下幾個模板，請選一個：
 
-① [模板名稱] — [tagline]
-   適合：[best_for 摘要，1–2 句]
-   風格：[mood 關鍵詞] · [formality 程度] · [深色/淺色]
+① [模板名稱] — [一句話]
+   適合：[最適合的場合與氣質，1–2 句]
+   風格：[氣質關鍵詞] · [正式度] · [主色描述]
 
-② [模板名稱] — [tagline]
-   適合：...
-   風格：...
+② ...
 
-③ [模板名稱] — [tagline]
-   適合：...
-   風格：...
+③ ...
 
-直接回 ①②③ 或模板名稱即可。若都不喜歡，可以說「換幾個看看」或「我要 [描述風格]」。
+直接回 ①②③ 或模板名稱即可。
+若都不喜歡，可以說「換幾個看看」或「我要 [描述風格]」。
 ```
 
-使用者選定後，讀取該模板的 `design.md`，把配色、字體、版型規格帶入 Step 2。
+使用者選定後，嘗試讀取 `bold-template-pack/[slug]/design.md` 取得完整配色與版型規格，帶入 Step 2。若無法讀取，根據模板目錄表中的描述自行推導配色與版型方向。
 
 ---
 
