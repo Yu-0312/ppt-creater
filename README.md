@@ -81,12 +81,12 @@ git clone https://github.com/Yu-0312/ppt-creater.git ~/.claude/skills/slide-work
 | **0** | 預設問卷：一次問完素材、受眾、格式、品牌、設計偏好 | ✅ 全部功能開關 |
 | 前置 | 路徑分流（有素材 / 主題研究 / 跨 session 銜接）| — |
 | **1** | 提煉＋清點 → ⛔ 停下確認範圍與備援區 | ✅ 備援區去留 |
-| **1.5** | 模板選擇：從 34 種風格篩出 3–5 候選 → ⛔ 等你選 | ✅ 使用者挑模板 |
-| **2** | 風格規格（套入模板；品牌色擷取；Refine Spec opt-in）| ✅ Refine Spec（opt-in）|
-| **3** | 生成（單一 HTML，Canvas 格式對應 Step 0 設定）| — |
-| **4** | 圖表驗算（原始數據繪製、重算統計值、抓錯標註）| ✅ 重大數字差異 |
-| **5** | 視覺驗收（預期 vs 實際、截圖逐頁核對）| ✅ |
-| **6** | 複盤封裝（整理成可重用 SOP）| — |
+| **2** | 模板選擇：從 34 種風格篩出 3–5 候選 → ⛔ 等你選 | ✅ 使用者挑模板 |
+| **3** | 風格規格（套入模板；品牌色擷取；Refine Spec opt-in）| ✅ Refine Spec（opt-in）|
+| **4** | 生成（單一 HTML，Canvas 格式對應 Step 0 設定）| — |
+| **5** | 圖表驗算（原始數據繪製、重算統計值、抓錯標註）| ✅ 重大數字差異 |
+| **6** | 視覺驗收（預期 vs 實際、截圖逐頁核對）| ✅ |
+| **7** | 複盤封裝（整理成可重用 SOP）| — |
 
 ---
 
@@ -94,7 +94,7 @@ git clone https://github.com/Yu-0312/ppt-creater.git ~/.claude/skills/slide-work
 
 ```
 slide-workflow/
-├── SKILL.md                      # 主流程（Step 0–6）/ Main workflow (Step 0–6)
+├── SKILL.md                      # 主流程（Step 0–7）/ Main workflow (Step 0–7)
 ├── references/
 │   ├── prompts.md                # 各步 prompt 模板 / Ready-to-paste prompt templates
 │   ├── chart-integrity.md        # 圖表驗算紀律 / Chart data verification rules
